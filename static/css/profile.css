@@ -14,13 +14,15 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 .profile-info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
-    align-items: flex-start
+    flex: 1;
+    min-width: 0;
 }
 
 .profile-avatar {
@@ -29,12 +31,15 @@
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .profile-details {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    max-width: 60%;
+    min-width: 0;
 }
 
 .profile-name {
@@ -47,6 +52,12 @@
     margin: 0;
     color: #555;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
 }
 
 .profile-contacts {
@@ -54,13 +65,15 @@
     gap: 16px;
     font-size: 13px;
     color: #666;
+    flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .profile-actions {
-    min-width: 415px;
     display: flex;
     gap: 10px;
-    justify-content: flex-end;
+    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
 .projects-grid-single {

@@ -10,6 +10,8 @@
     border-radius: 12px;
     padding: 24px;
     margin-bottom: 20px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-card-header {
@@ -18,11 +20,15 @@
     gap: 14px;
     margin-bottom: 12px;
     justify-content: space-between;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-card-header-left {
     display: flex;
     gap: 10px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-author-avatar {
@@ -30,6 +36,7 @@
     height: 48px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .project-meta {
@@ -39,34 +46,53 @@
     align-items: flex-start;
     font-size: 14px;
     color: #555;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-author {
     font-weight: 700;
+    word-break: break-all;
+    max-width: 100%;
 }
 
 .project-title {
     font-size: 22px;
     font-weight: bold;
     margin: 10px 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .project-description {
     font-size: 15px;
     color: #444;
     margin-bottom: 16px;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
 }
 
 .project-link {
     margin-bottom: 20px;
     font-size: 14px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.project-link a {
+    word-break: break-all;
 }
 
 .project-card-body {
     display: flex;
     flex-direction: column;
-    align-items: flex-stat;
+    align-items: flex-start;
     justify-content: space-between;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-card-body-left {
@@ -78,7 +104,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: flex-end
+    justify-content: flex-end;
 }
 
 .project-participants-card {
@@ -86,6 +112,8 @@
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 20px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .project-participants-card h3 {
@@ -114,6 +142,7 @@
     height: 36px;
     border-radius: 50%;
     object-fit: cover;
+    flex-shrink: 0;
 }
 
 .participant-info {
@@ -124,6 +153,7 @@
 
 .participant-name {
     font-weight: 600;
+    word-break: break-all;
 }
 
 .participant-role {
@@ -137,6 +167,8 @@
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
+    max-width: 100%;
+    overflow: visible;
 }
 
 .project-skills p {
@@ -151,4 +183,6 @@
 
 .skills-container {
     margin-top: 12px;
+    max-width: 100%;
+    overflow: visible;
 }
