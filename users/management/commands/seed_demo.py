@@ -68,23 +68,20 @@ class Command(BaseCommand):
             if created:
                 user.set_password(data["password"])
 
-                # Ищем существующий аватар по первой букве имени
                 first_letter = data["name"][0].upper()
                 avatar_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
+                existing_avatar = None
                 if os.path.exists(avatar_dir):
-                    for filename in os.listdir(avatar_dir):
-                        if filename.startswith(f"avatar_{first_letter}"):
-                            user.avatar = f"avatars/{filename}"
+                    for filename in sorted(os.listdir(avatar_dir)):
+                        if filename.startswith(f"avatar_{first_letter}") and filename.endswith(".png") and len(filename) < 70:
+                            existing_avatar = filename
                             break
+                if existing_avatar:
+                    user.avatar = f"avatars/{existing_avatar}"
 
                 user.save()
-                role = "администратор" if is_superuser else "пользователь"
-                self.stdout.write(f"  {data['name']} {data['surname']} ({role}) создан: {data['email']} / {data['password']}")
-            else:
-                self.stdout.write(f"  {data['name']} {data['surname']} уже существует")
             created_users[data["email"]] = user
 
-        # Проекты
         projects_data = [
             {
                 "owner_email": "admin@mail.ru",
@@ -145,8 +142,3 @@ class Command(BaseCommand):
                     project.skills.add(skill)
                 for email in proj["participants"]:
                     project.participants.add(created_users[email])
-
-        self.stdout.write("Для входа:")
-        self.stdout.write("  admin@mail.ru / admin (администратор)")
-        self.stdout.write("  aleks.malygin200@yandex.ru / 1234 (Валерий Умаров)")
-        self.stdout.write("  aleks.malygin200@mail.ru / 1234 (Алексей Малыгин)")
