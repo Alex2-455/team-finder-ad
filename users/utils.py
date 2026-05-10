@@ -7,17 +7,33 @@ from team_finder.constants import AVATAR_SIZE, AVATAR_FONT_SIZE, AVATAR_COLORS
 
 def generate_avatar(letter: str) -> ContentFile:
     bg_color = random.choice(AVATAR_COLORS)
-
     img = Image.new("RGB", AVATAR_SIZE, bg_color)
     draw = ImageDraw.Draw(img)
 
-    try:
-        font = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", AVATAR_FONT_SIZE)
-    except OSError:
+    font = None
+    font_paths = [
+        # Windows
+        "C:/Windows/Fonts/arialbd.ttf",
+        "C:/Windows/Fonts/calibrib.ttf",
+        "C:/Windows/Fonts/segoeuib.ttf",
+        # Mac
+        "/System/Library/Fonts/Helvetica.ttc",
+        "/System/Library/Fonts/Arial Bold.ttf",
+        "/Library/Fonts/Arial Bold.ttf",
+        # Linux
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    ]
+
+    for path in font_paths:
         try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", AVATAR_FONT_SIZE)
+            font = ImageFont.truetype(path, AVATAR_FONT_SIZE)
+            break
         except OSError:
-            font = ImageFont.load_default()
+            continue
+
+    if font is None:
+        font = ImageFont.load_default()
 
     bbox = font.getbbox(letter)
     text_w = bbox[2] - bbox[0]

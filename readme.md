@@ -44,6 +44,7 @@ markdown
   pip install -r requirements.txt
 
 # 3. Создать файл .env
+  cp .env_example .env
 
   Сгенерировать DJANGO_SECRET_KEY:
   openssl rand -base64 32
@@ -76,6 +77,9 @@ markdown
   python manage.py runserver
 
     Сайт доступен по адресу: http://127.0.0.1:8000
+
+
+при каких либо неполадках в первую очередь стоит очистить кэш браузера
 
 
 # Тестовые пользователи

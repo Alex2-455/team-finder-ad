@@ -2,17 +2,16 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from users.models import User
 from projects.models import Project, Skill
+import os
+from django.conf import settings
 
 
 class Command(BaseCommand):
     help = "Создаёт тестовые данные для демонстрации"
 
     def handle(self, *args, **options):
-        self.stdout.write("Применяю миграции...")
         call_command("migrate", "--noinput")
 
-        # Создаём навыки
-        self.stdout.write("Создаю навыки...")
         skills_data = [
             "Python", "Django", "JavaScript",
             "PostgreSQL", "C++",
@@ -21,8 +20,6 @@ class Command(BaseCommand):
         for name in skills_data:
             Skill.objects.get_or_create(name=name)
 
-        # Пользователи
-        self.stdout.write("Создаю пользователей...")
         users_data = [
             {
                 "email": "admin@mail.ru",
@@ -56,7 +53,7 @@ class Command(BaseCommand):
         for data in users_data:
             is_superuser = data.pop("is_superuser", False)
             is_staff = data.pop("is_staff", False)
-            
+
             user, created = User.objects.get_or_create(
                 email=data["email"],
                 defaults={
@@ -70,6 +67,16 @@ class Command(BaseCommand):
             )
             if created:
                 user.set_password(data["password"])
+
+                # Ищем существующий аватар по первой букве имени
+                first_letter = data["name"][0].upper()
+                avatar_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
+                if os.path.exists(avatar_dir):
+                    for filename in os.listdir(avatar_dir):
+                        if filename.startswith(f"avatar_{first_letter}"):
+                            user.avatar = f"avatars/{filename}"
+                            break
+
                 user.save()
                 role = "администратор" if is_superuser else "пользователь"
                 self.stdout.write(f"  {data['name']} {data['surname']} ({role}) создан: {data['email']} / {data['password']}")
@@ -78,7 +85,6 @@ class Command(BaseCommand):
             created_users[data["email"]] = user
 
         # Проекты
-        self.stdout.write("Создаю проекты...")
         projects_data = [
             {
                 "owner_email": "admin@mail.ru",
@@ -139,12 +145,7 @@ class Command(BaseCommand):
                     project.skills.add(skill)
                 for email in proj["participants"]:
                     project.participants.add(created_users[email])
-                self.stdout.write(f"  Проект «{project.name}» создан ({proj['status']})")
-            else:
-                self.stdout.write(f"  Проект «{project.name}» уже существует")
 
-        self.stdout.write(self.style.SUCCESS("\nГотово! Данные созданы."))
-        self.stdout.write("")
         self.stdout.write("Для входа:")
         self.stdout.write("  admin@mail.ru / admin (администратор)")
         self.stdout.write("  aleks.malygin200@yandex.ru / 1234 (Валерий Умаров)")
