@@ -14,10 +14,8 @@ class Command(BaseCommand):
         # Создаём навыки
         self.stdout.write("Создаю навыки...")
         skills_data = [
-            "Python", "Django", "JavaScript", "React", "TypeScript",
-            "Docker", "PostgreSQL", "Redis", "Machine Learning",
-            "UI/UX Design", "Figma", "Node.js", "Vue.js",
-            "Kubernetes", "CI/CD", "Blockchain", "C++", "Go", "Rust",
+            "Python", "Django", "JavaScript",
+            "PostgreSQL", "C++",
             "HTML", "CSS", "1C", "C#",
         ]
         for name in skills_data:

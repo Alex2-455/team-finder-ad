@@ -35,10 +35,18 @@ markdown
 
 # Как запустить проект
 
-# 1. Создать файл .env
+
+# 1. Виртуальное окружение
+  python -m venv venv
+  source venv/Scripts/activate
+
+# 2. Зависимости
+  pip install -r requirements.txt
+
+# 3. Создать файл .env
 
   Сгенерировать DJANGO_SECRET_KEY:
-  python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+  openssl rand -base64 32
 
   Скопировать .env_example в .env и заполнить:
     DJANGO_SECRET_KEY=<сгенерированный_ключ>
@@ -50,21 +58,12 @@ markdown
     POSTGRES_HOST=localhost
     POSTGRES_PORT=5432
 
-
-# 2. Запустить базу данных
+# 4. Запустить базу данных
   docker compose up -d
 
-
-# 3. Виртуальное окружение
-  python -m venv venv
-  source venv/Scripts/activate
-
-
-# 4. Зависимости
-  pip install -r requirements.txt
-
-
 # 5. Тестовые данные
+  python manage.py makemigrations users projects
+  python manage.py migrate
   python manage.py seed_demo
 
     применит миграции
