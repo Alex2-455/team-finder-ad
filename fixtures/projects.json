@@ -1,0 +1,42 @@
+[
+    {
+        "owner_email": "admin@mail.ru",
+        "name": "Помощь с обслуживанием сайта TeamFinder",
+        "description": "требуются трудолюбивые программисты готовые вводить нововведения",
+        "status": "open",
+        "skills": ["Python", "Django", "JavaScript", "HTML", "CSS"],
+        "participants": ["aleks.malygin200@yandex.ru", "aleks.malygin200@mail.ru"]
+    },
+    {
+        "owner_email": "admin@mail.ru",
+        "name": "Создание сайта",
+        "description": "иметь навыки имеющиеся в описании",
+        "status": "closed",
+        "skills": ["Django", "PostgreSQL", "JavaScript"],
+        "participants": ["aleks.malygin200@yandex.ru", "aleks.malygin200@mail.ru"]
+    },
+    {
+        "owner_email": "aleks.malygin200@yandex.ru",
+        "name": "Программирование подводного робота",
+        "description": "требуется опыт, и возможность командировка",
+        "status": "open",
+        "skills": ["C#", "C++"],
+        "participants": ["admin@mail.ru", "aleks.malygin200@mail.ru"]
+    },
+    {
+        "owner_email": "aleks.malygin200@yandex.ru",
+        "name": "Создание базы для бухгалтерии в компания",
+        "description": "требуется команда для трудной и рутинной работы с большой оплатой",
+        "status": "open",
+        "skills": ["1C", "PostgreSQL"],
+        "participants": ["admin@mail.ru"]
+    },
+    {
+        "owner_email": "aleks.malygin200@mail.ru",
+        "name": "создание браузера",
+        "description": "нужно создать браузер с обширным функционалом, лучше Chrome",
+        "status": "open",
+        "skills": ["C++", "JavaScript", "HTML", "CSS"],
+        "participants": []
+    }
+]

@@ -1,14 +1,15 @@
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from .managers import UserManager
-from .utils import generate_avatar
+from django.db import models
+
 from team_finder.constants import (
-    USER_NAME_MAX_LENGTH,
-    USER_SURNAME_MAX_LENGTH,
-    USER_PHONE_MAX_LENGTH,
-    USER_ABOUT_MAX_LENGTH,
     AVATAR_UPLOAD_DIR,
+    USER_ABOUT_MAX_LENGTH,
+    USER_NAME_MAX_LENGTH,
+    USER_PHONE_MAX_LENGTH,
+    USER_SURNAME_MAX_LENGTH,
 )
+from users.managers import UserManager
+from users.utils import generate_avatar
 
 
 class User(AbstractBaseUser, PermissionsMixin):

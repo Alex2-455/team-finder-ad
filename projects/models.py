@@ -1,9 +1,11 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+from django.urls import reverse
+
 from team_finder.constants import (
     PROJECT_NAME_MAX_LENGTH,
-    PROJECT_STATUS_MAX_LENGTH,
     PROJECT_STATUS_CHOICES,
+    PROJECT_STATUS_MAX_LENGTH,
     PROJECT_STATUS_OPEN,
     SKILL_NAME_MAX_LENGTH,
 )
@@ -58,3 +60,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("projects:project_detail", kwargs={"project_id": self.pk})

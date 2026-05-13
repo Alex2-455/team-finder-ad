@@ -52,6 +52,7 @@ markdown
   Скопировать .env_example в .env и заполнить:
     DJANGO_SECRET_KEY=<сгенерированный_ключ>
     DJANGO_DEBUG=True
+    DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
 
     POSTGRES_DB=teamfinder
     POSTGRES_USER=postgres

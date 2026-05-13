@@ -1,16 +1,45 @@
 import re
+
 from django import forms
 from django.contrib.auth import authenticate
-from .models import User
+
 from team_finder.constants import (
-    USER_PHONE_REGEX,
+    GITHUB_URL_PATTERN,
+    USER_NAME_MAX_LENGTH,
     USER_PHONE_ALT_REGEX,
     USER_PHONE_PREFIX,
-    GITHUB_URL_PATTERN,
+    USER_PHONE_REGEX,
+    USER_SURNAME_MAX_LENGTH,
 )
+from users.models import User
 
 
-class RegisterForm(forms.ModelForm):
+class GithubURLValidatorMixin:
+    def clean_github_url(self):
+        url = self.cleaned_data.get("github_url")
+        if url and GITHUB_URL_PATTERN not in url:
+            raise forms.ValidationError("Ссылка должна вести на github.com")
+        return url
+
+
+class NameSurnameValidatorMixin:
+    def _validate_name_length(self, value, max_length, field_name):
+        if len(value) > max_length:
+            raise forms.ValidationError(
+                f"{field_name} не может быть длиннее {max_length} символов"
+            )
+        return value
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        return self._validate_name_length(name, USER_NAME_MAX_LENGTH, "Имя")
+
+    def clean_surname(self):
+        surname = self.cleaned_data.get("surname")
+        return self._validate_name_length(surname, USER_SURNAME_MAX_LENGTH, "Фамилия")
+
+
+class RegisterForm(NameSurnameValidatorMixin, forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
 
     class Meta:
@@ -21,18 +50,6 @@ class RegisterForm(forms.ModelForm):
             "surname": "Фамилия",
             "email": "Email",
         }
-
-    def clean_name(self):
-        name = self.cleaned_data.get("name")
-        if len(name) > 30:
-            raise forms.ValidationError("Имя не может быть длиннее 30 символов")
-        return name
-
-    def clean_surname(self):
-        surname = self.cleaned_data.get("surname")
-        if len(surname) > 30:
-            raise forms.ValidationError("Фамилия не может быть длиннее 30 символов")
-        return surname
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -61,7 +78,11 @@ class LoginForm(forms.Form):
         return cleaned_data
 
 
-class EditProfileForm(forms.ModelForm):
+class EditProfileForm(
+    GithubURLValidatorMixin,
+    NameSurnameValidatorMixin,
+    forms.ModelForm,
+):
     class Meta:
         model = User
         fields = ["name", "surname", "avatar", "about", "phone", "github_url"]
@@ -73,18 +94,6 @@ class EditProfileForm(forms.ModelForm):
             "phone": "Телефон",
             "github_url": "GitHub",
         }
-
-    def clean_name(self):
-        name = self.cleaned_data.get("name")
-        if len(name) > 30:
-            raise forms.ValidationError("Имя не может быть длиннее 30 символов")
-        return name
-
-    def clean_surname(self):
-        surname = self.cleaned_data.get("surname")
-        if len(surname) > 30:
-            raise forms.ValidationError("Фамилия не может быть длиннее 30 символов")
-        return surname
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
@@ -104,12 +113,6 @@ class EditProfileForm(forms.ModelForm):
             raise forms.ValidationError("Пользователь с таким номером телефона уже существует")
         return phone
 
-    def clean_github_url(self):
-        url = self.cleaned_data.get("github_url")
-        if url and GITHUB_URL_PATTERN not in url:
-            raise forms.ValidationError("Ссылка должна вести на github.com")
-        return url
-
 
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput, label="Текущий пароль")
@@ -128,9 +131,9 @@ class ChangePasswordForm(forms.Form):
 
     def clean(self):
         cleaned = super().clean()
-        p1 = cleaned.get("new_password1")
-        p2 = cleaned.get("new_password2")
-        if p1 and p2 and p1 != p2:
+        new_password1 = cleaned.get("new_password1")
+        new_password2 = cleaned.get("new_password2")
+        if new_password1 and new_password2 and new_password1 != new_password2:
             raise forms.ValidationError("Новые пароли не совпадают")
         return cleaned
 

@@ -1,9 +1,11 @@
 from django import forms
-from .models import Project
-from team_finder.constants import GITHUB_URL_PATTERN, PROJECT_STATUS_CHOICES
+
+from team_finder.constants import PROJECT_STATUS_CHOICES
+from users.forms import GithubURLValidatorMixin
+from projects.models import Project
 
 
-class ProjectForm(forms.ModelForm):
+class ProjectForm(GithubURLValidatorMixin, forms.ModelForm):
     class Meta:
         model = Project
         fields = ["name", "description", "github_url", "status"]
@@ -16,9 +18,3 @@ class ProjectForm(forms.ModelForm):
         widgets = {
             "status": forms.Select(choices=PROJECT_STATUS_CHOICES),
         }
-
-    def clean_github_url(self):
-        url = self.cleaned_data.get("github_url")
-        if url and GITHUB_URL_PATTERN not in url:
-            raise forms.ValidationError("Ссылка должна вести на github.com")
-        return url

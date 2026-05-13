@@ -1,12 +1,15 @@
 from pathlib import Path
 from decouple import config
-from .constants import LANGUAGE_CODE, TIME_ZONE, STATIC_URL, MEDIA_URL
+from team_finder.constants import LANGUAGE_CODE, TIME_ZONE, STATIC_URL, MEDIA_URL
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config("DJANGO_SECRET_KEY")
 DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config(
+    "DJANGO_ALLOWED_HOSTS",
+    default="127.0.0.1,localhost",
+).split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -69,6 +72,10 @@ if not DEBUG:
     ])
 
 AUTH_USER_MODEL = "users.User"
+
+LOGIN_URL = "/users/login/"
+LOGIN_REDIRECT_URL = "/projects/list/"
+LOGOUT_REDIRECT_URL = "/projects/list/"
 
 LANGUAGE_CODE = LANGUAGE_CODE
 TIME_ZONE = TIME_ZONE

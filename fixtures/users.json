@@ -1,0 +1,28 @@
+[
+    {
+        "email": "admin@mail.ru",
+        "name": "admin",
+        "surname": "admin",
+        "password": "admin",
+        "phone": "+79220953942",
+        "about": "",
+        "is_superuser": true,
+        "is_staff": true
+    },
+    {
+        "email": "aleks.malygin200@yandex.ru",
+        "name": "Валерий",
+        "surname": "Умаров",
+        "password": "1234",
+        "phone": "+79220953941",
+        "about": ""
+    },
+    {
+        "email": "aleks.malygin200@mail.ru",
+        "name": "Алексей",
+        "surname": "Малыгин",
+        "password": "1234",
+        "phone": "",
+        "about": ""
+    }
+]

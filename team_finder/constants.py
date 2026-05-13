@@ -1,5 +1,21 @@
+from http import HTTPStatus
+
+
 PROJECTS_PER_PAGE = 12
 USERS_PER_PAGE = 12
+
+
+
+PROJECT_STATUS_OPEN = "open"
+PROJECT_STATUS_CLOSED = "closed"
+PROJECT_STATUS_CHOICES = [
+    (PROJECT_STATUS_OPEN, "Открыт"),
+    (PROJECT_STATUS_CLOSED, "Закрыт"),
+]
+PROJECT_NAME_MAX_LENGTH = 200
+PROJECT_STATUS_MAX_LENGTH = 6
+PROJECT_DESCRIPTION_MAX_LENGTH = 2000
+
 
 
 SKILLS_AUTOCOMPLETE_LIMIT = 10
@@ -16,37 +32,53 @@ USER_PHONE_ALT_REGEX = r"^8\d{10}$"
 USER_PHONE_PREFIX = "+7"
 
 
-PROJECT_NAME_MAX_LENGTH = 200
-PROJECT_STATUS_MAX_LENGTH = 6
-PROJECT_DESCRIPTION_MAX_LENGTH = 2000
-PROJECT_STATUS_CHOICES = [
-    ("open", "Открыт"),
-    ("closed", "Закрыт"),
-]
-PROJECT_STATUS_OPEN = "open"
-PROJECT_STATUS_CLOSED = "closed"
-
-
 AVATAR_SIZE = (200, 200)
 AVATAR_FONT_SIZE = 120
+COLOR_INDIGO = (79, 70, 229)
+COLOR_EMERALD = (5, 150, 105)
+COLOR_RED = (220, 38, 38)
+COLOR_BLUE = (37, 99, 235)
+COLOR_AMBER = (202, 138, 4)
+COLOR_VIOLET = (147, 51, 234)
+COLOR_CYAN = (8, 145, 178)
 AVATAR_COLORS = [
-    (79, 70, 229),
-    (5, 150, 105),
-    (220, 38, 38),
-    (37, 99, 235),
-    (202, 138, 4),
-    (147, 51, 234),
-    (8, 145, 178),
+    COLOR_INDIGO,
+    COLOR_EMERALD,
+    COLOR_RED,
+    COLOR_BLUE,
+    COLOR_AMBER,
+    COLOR_VIOLET,
+    COLOR_CYAN,
 ]
 AVATAR_UPLOAD_DIR = "avatars/"
 DEFAULT_AVATAR = "images/default-avatar.png"
 
+FONT_DIR_WINDOWS = "C:/Windows/Fonts"
+FONT_DIR_MAC_SYSTEM = "/System/Library/Fonts"
+FONT_DIR_MAC_LIBRARY = "/Library/Fonts"
+FONT_DIR_LINUX_DEJAVU = "/usr/share/fonts/truetype/dejavu"
+FONT_DIR_LINUX_LIBERATION = "/usr/share/fonts/truetype/liberation"
+FONT_PATHS = [
+    f"{FONT_DIR_WINDOWS}/arialbd.ttf",
+    f"{FONT_DIR_WINDOWS}/calibrib.ttf",
+    f"{FONT_DIR_WINDOWS}/segoeuib.ttf",
+    f"{FONT_DIR_MAC_SYSTEM}/Helvetica.ttc",
+    f"{FONT_DIR_MAC_SYSTEM}/Arial Bold.ttf",
+    f"{FONT_DIR_MAC_LIBRARY}/Arial Bold.ttf",
+    f"{FONT_DIR_LINUX_DEJAVU}/DejaVuSans-Bold.ttf",
+    f"{FONT_DIR_LINUX_LIBERATION}/LiberationSans-Bold.ttf",
+]
+
 MEDIA_URL = "/media/"
 STATIC_URL = "static/"
 
-
 GITHUB_URL_PATTERN = "github.com"
-
 
 LANGUAGE_CODE = "ru"
 TIME_ZONE = "Asia/Yekaterinburg"
+
+HTTP_200_OK = HTTPStatus.OK
+HTTP_302_FOUND = HTTPStatus.FOUND
+HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
+HTTP_403_FORBIDDEN = HTTPStatus.FORBIDDEN
+HTTP_404_NOT_FOUND = HTTPStatus.NOT_FOUND

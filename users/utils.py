@@ -1,8 +1,11 @@
 import io
 import random
-from PIL import Image, ImageDraw, ImageFont
+
 from django.core.files.base import ContentFile
-from team_finder.constants import AVATAR_SIZE, AVATAR_FONT_SIZE, AVATAR_COLORS
+from django.core.paginator import Paginator
+from PIL import Image, ImageDraw, ImageFont
+
+from team_finder.constants import AVATAR_COLORS, AVATAR_FONT_SIZE, AVATAR_SIZE, FONT_PATHS
 
 
 def generate_avatar(letter: str) -> ContentFile:
@@ -11,21 +14,7 @@ def generate_avatar(letter: str) -> ContentFile:
     draw = ImageDraw.Draw(img)
 
     font = None
-    font_paths = [
-        # Windows
-        "C:/Windows/Fonts/arialbd.ttf",
-        "C:/Windows/Fonts/calibrib.ttf",
-        "C:/Windows/Fonts/segoeuib.ttf",
-        # Mac
-        "/System/Library/Fonts/Helvetica.ttc",
-        "/System/Library/Fonts/Arial Bold.ttf",
-        "/Library/Fonts/Arial Bold.ttf",
-        # Linux
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-    ]
-
-    for path in font_paths:
+    for path in FONT_PATHS:
         try:
             font = ImageFont.truetype(path, AVATAR_FONT_SIZE)
             break
@@ -45,3 +34,9 @@ def generate_avatar(letter: str) -> ContentFile:
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     return ContentFile(buf.getvalue(), name=f"avatar_{letter}.png")
+
+
+def paginate(request, queryset, per_page):
+    paginator = Paginator(queryset, per_page)
+    page_number = request.GET.get("page")
+    return paginator.get_page(page_number)
