@@ -5,7 +5,7 @@ from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from PIL import Image, ImageDraw, ImageFont
 
-from team_finder.constants import AVATAR_COLORS, AVATAR_FONT_SIZE, AVATAR_SIZE, FONT_PATHS
+from team_finder.constants import AVATAR_COLORS, AVATAR_FONT_SIZE, AVATAR_SIZE, FONT_PATHS, PROJECTS_PER_PAGE
 
 
 def generate_avatar(letter: str) -> ContentFile:
@@ -36,7 +36,7 @@ def generate_avatar(letter: str) -> ContentFile:
     return ContentFile(buf.getvalue(), name=f"avatar_{letter}.png")
 
 
-def paginate(request, queryset, per_page):
+def paginate(request, queryset, per_page=PROJECTS_PER_PAGE):
     paginator = Paginator(queryset, per_page)
     page_number = request.GET.get("page")
     return paginator.get_page(page_number)

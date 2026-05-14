@@ -1,6 +1,10 @@
 from pathlib import Path
+
 from decouple import config
-from team_finder.constants import LANGUAGE_CODE, TIME_ZONE, STATIC_URL, MEDIA_URL
+from django.urls import reverse_lazy
+
+from team_finder.constants import (LANGUAGE_CODE, MEDIA_URL, STATIC_URL,
+                                   TIME_ZONE) # по isort
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -73,9 +77,7 @@ if not DEBUG:
 
 AUTH_USER_MODEL = "users.User"
 
-LOGIN_URL = "/users/login/"
-LOGIN_REDIRECT_URL = "/projects/list/"
-LOGOUT_REDIRECT_URL = "/projects/list/"
+LOGIN_URL = reverse_lazy("users:login")
 
 LANGUAGE_CODE = LANGUAGE_CODE
 TIME_ZONE = TIME_ZONE

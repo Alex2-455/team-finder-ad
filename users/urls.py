@@ -1,5 +1,5 @@
 from django.urls import path
-from users import views 
+from users import views # по isort 
 
 app_name = "users"
 

@@ -32,11 +32,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
+    def __str__(self):
+        return f"{self.name} {self.surname} ({self.email})"
+
     def save(self, *args, **kwargs):
         if not self.pk and not self.avatar:
             first_letter = self.name[0].upper() if self.name else "U"
             self.avatar = generate_avatar(first_letter)
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.name} {self.surname} ({self.email})"

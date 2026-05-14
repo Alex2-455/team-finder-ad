@@ -5,16 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-
-from team_finder.constants import (
-    PROJECT_STATUS_CLOSED,
-    PROJECT_STATUS_OPEN,
-    PROJECTS_PER_PAGE,
-    SKILLS_AUTOCOMPLETE_LIMIT,
-)
-from users.utils import paginate
 from projects.forms import ProjectForm
 from projects.models import Project, Skill
+from users.utils import paginate
+
+from team_finder.constants import (PROJECT_STATUS_CLOSED, PROJECT_STATUS_OPEN,
+                                   SKILLS_AUTOCOMPLETE_LIMIT) # по isort
 
 
 def project_list(request):
@@ -23,7 +19,7 @@ def project_list(request):
     if skill_filter:
         projects = projects.filter(skills__name=skill_filter)
 
-    page_obj = paginate(request, projects, PROJECTS_PER_PAGE)
+    page_obj = paginate(request, projects)
     all_skills = Skill.objects.all()
     return render(request, "projects/project_list.html", {
         "projects": page_obj,
